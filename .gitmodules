@@ -7,3 +7,6 @@
 [submodule "third_party/glew"]
 	path = third_party/glew
 	url = https://github.com/nigels-com/glew.git
+[submodule "Module"]
+	path = Module
+	url = https://github.com/christofmuc/juce-spectroscope19.git
