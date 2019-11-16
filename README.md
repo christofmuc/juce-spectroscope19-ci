@@ -1,3 +1,7 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/31pntnp3bhs0dyrv?svg=true)](https://ci.appveyor.com/project/christofmuc/juce-spectroscope19-ci)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/31pntnp3bhs0dyrv/branch/master?svg=true)](https://ci.appveyor.com/project/christofmuc/juce-spectroscope19-ci/branch/master)
+
 # Introduction
 
 This is a standalone program to run the beautiful SpectrogramWidget of the [juce-spectroscope19](https://github.com/christofmuc/juce-spectroscope19) library. Go there if you want to include the widget in your own project, look here in this repository on how it is done. 
