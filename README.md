@@ -4,6 +4,12 @@ This is a standalone program to run the beautiful SpectrogramWidget of the [juce
 
 I also use this as a super-repository to document the use of the SpectrogramWidget including a proper build with git submodules, and hooking it into the appveyor CI.
 
+## Example
+
+Here is a screenshot of the program in action rendering a youtube video of a performance of [Pergolesi's Stabat mater](https://www.youtube.com/watch?v=FjJ02agjjdo):
+
+![A picture of the rendering of the spectrogram](Screenshot.png)
+
 ## Usage
 
 This repository allows us to build the demo of the SpectrogramWidget library independantly in an easy way. First checkout recursively:
