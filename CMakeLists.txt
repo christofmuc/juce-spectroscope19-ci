@@ -65,3 +65,8 @@ IF(WIN32)
 					"${GLEW_DLL_DIRECTORY}/glew32.dll"
 					${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>)
 ENDIF()
+
+# Use all cores
+IF (MSVC)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+endif()
