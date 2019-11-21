@@ -7,13 +7,14 @@
 #include "ExampleWidget.h"
 
 ExampleWidget::ExampleWidget() :
-	audioIOSelector_(deviceManager, 1, 2, 0, 0, false, false, true, true),
-	spectrogram_([this]() {
-	MessageManager::callAsync([this]() {
-		if (spectroscope2D_) spectroscope2D_->refreshData();
-	});
-})
+	audioIOSelector_(deviceManager, 1, 2, 0, 0, false, false, true, true)
 {
+	spectrogram_ = std::make_shared<Spectrogram>([this]() {
+		MessageManager::callAsync([this]() {
+			if (spectroscope2D_.glComponent()) spectroscope2D_.glComponent()->refreshData();
+		});
+	});
+
 	formatManager_.registerBasicFormats();
 	setAudioChannels(2, 2);
 
@@ -34,6 +35,8 @@ ExampleWidget::ExampleWidget() :
 	// These two share the same space, I just toggle between visibility of them
 	addChildComponent(audioIOSelector_);
 	audioIOSelector_.setVisible(true);
+	addAndMakeVisible(spectroscope2D_);
+	spectroscope2D_.setVisible(false);
 }
 
 ExampleWidget::~ExampleWidget()
@@ -45,24 +48,19 @@ void ExampleWidget::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 {
 	audioTransportSource_.prepareToPlay(samplesPerBlockExpected, sampleRate);
 
-	spectroscope2D_ = std::make_unique<SpectogramWidget>(spectrogram_);
-	addChildComponent(spectroscope2D_.get());
+	spectroscope2D_.start(new SpectogramWidget(spectrogram_));
 }
 
 void ExampleWidget::releaseResources()
 {
-	if (spectroscope2D_) {
-		spectroscope2D_->setContinuousRedrawing(false);
-		removeChildComponent(spectroscope2D_.get());
-		spectroscope2D_.reset();
-	}
+	spectroscope2D_.stop();
 	audioTransportSource_.releaseResources();
 }
 
 void ExampleWidget::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 {
 	// Write to Ring Buffer
-	spectrogram_.newData(bufferToFill);
+	if (spectrogram_) spectrogram_->newData(bufferToFill);
 }
 
 void ExampleWidget::resized()
@@ -75,7 +73,7 @@ void ExampleWidget::resized()
 	area = area.reduced(10);
 
 	audioIOSelector_.setBounds(area);
-	if (spectroscope2D_) spectroscope2D_->setBounds(area.reduced(8));
+	spectroscope2D_.setBounds(area.reduced(8));
 }
 
 void ExampleWidget::buttonClicked(Button* button)
@@ -83,11 +81,11 @@ void ExampleWidget::buttonClicked(Button* button)
 	if (button == &showIOSelectorButton_) {
 		showIOSelectorButtonClicked();
 	}
-	if (button == &startStopButton_ && spectroscope2D_) {
-		spectroscope2D_->setContinuousRedrawing(!spectroscope2D_->isRunning());
+	if (button == &startStopButton_ && spectroscope2D_.glComponent()) {
+		spectroscope2D_.glComponent()->setContinuousRedrawing(!spectroscope2D_.glComponent()->isRunning());
 	}
-	else if (button == &logXButton_ && spectroscope2D_) {
-		spectroscope2D_->setXAxis(button->getToggleState());
+	else if (button == &logXButton_ && spectroscope2D_.glComponent()) {
+		spectroscope2D_.glComponent()->setXAxis(button->getToggleState());
 	}
 }
 
@@ -97,17 +95,17 @@ void ExampleWidget::showIOSelectorButtonClicked()
 	bool audioIOShouldBeVisibile = !audioIOSelector_.isVisible();
 	audioIOSelector_.setVisible(audioIOShouldBeVisibile);
 
-	if (spectroscope2D_) {
+	if (spectroscope2D_.glComponent()) {
 		if (audioIOShouldBeVisibile)
 		{
-			spectroscope2D_->setVisible(false);
-			spectroscope2D_->setContinuousRedrawing(false);
+			spectroscope2D_.setVisible(false);
+			spectroscope2D_.glComponent()->setContinuousRedrawing(false);
 			resized();
 		}
 		else
 		{
-			spectroscope2D_->setVisible(true);
-			spectroscope2D_->setContinuousRedrawing(true);
+			spectroscope2D_.setVisible(true);
+			spectroscope2D_.glComponent()->setContinuousRedrawing(true);
 			resized();
 		}
 	}

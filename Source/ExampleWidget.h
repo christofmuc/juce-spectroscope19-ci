@@ -8,6 +8,8 @@
 
 #include "JuceHeader.h"
 
+#include "ManagedOpenGLComponent.h"
+
 #include "Spectrogram.h"
 #include "SpectrogramWidget.h"
 
@@ -38,7 +40,7 @@ private:
 	ToggleButton logXButton_;
 	AudioDeviceSelectorComponent audioIOSelector_;
 
-	std::unique_ptr<SpectogramWidget> spectroscope2D_;
-	Spectrogram spectrogram_;
+	ManagedOpenGLComponent<SpectogramWidget> spectroscope2D_;
+	std::shared_ptr<Spectrogram> spectrogram_;
 };
 
