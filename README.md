@@ -18,15 +18,62 @@ Here is a screenshot of the program in action rendering a youtube video of a per
 
 This repository allows us to build the demo of the SpectrogramWidget library independantly in an easy way. First checkout recursively:
 
+    cd <whereever>
     git clone --recurse-submodules -j8 https://github.com/christofmuc/juce-spectroscope19-ci.git
-	
-Then use [CMake](https://cmake.org/) to build the makefile for Windows (use other generators as you see fit, here I am using [Microsoft Visual Studio 2017](https://visualstudio.microsoft.com/), which is available as a Community edition as well):
 
+### On Windows
+	
+Then use [CMake](https://cmake.org/) to build the makefile for Windows (use other generators as you see fit, here I am using [Microsoft Visual Studio 2017](https://visualstudio.microsoft.com/), which is available as a Community edition as well). We will need a recent version of CMake, at least version 3.14 is required.
+
+    cd <whereever>\juce-spectroscope19-ci
     cmake -S . -B Builds\Windows -G "Visual Studio 15 2017 Win64" 
 	
 Building with cmake:
 
     cmake --build Builds\Windows --config=Release
+
+or for the Debug build:
+
+    cmake --build Builds\Windows --config=Debug
+
+
+### On Unix
+
+The build process on Unix is slightly different. We tested only on Debian 9 so far, and this is how it works:
+
+Install [CMake](https://cmake.org/). At the time of writing, the packaged version of cmake for Debian is way too old. Remove the old cmake in case it is there with 
+
+    sudo apt remove cmake
+    sudo apt purge --auto-remove cmake
+
+Then you need to download the binary distribution from the website and install it according to the instructions:
+    
+    wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5-Linux-x86_64.sh
+    chmod +x cmake-3.15.5-Linux-x86_64.sh
+    sudo cmake-3.15.5-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=/usr/local 
+
+Test that the cmake is now on the path 
+
+We need to install a list of prerequisite development packages in case they are not present yet. This is best done with the following command:
+
+    sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.0-dev libglew-dev libcurl4-openssl-dev libasound2-dev
+
+Now we can run the cmake build command and keep fingers crossed that we will build without errors
+
+    cd <whereever>/juce-spectroscope19-ci
+    cmake -S . -B Builds/Debug -DCMAKE_BUILD_TYPE=DEBUG
+    cmake --build Builds/Debug
+
+The resulting executable that you can start is found in the folder `Builds/Debug`. 
+
+For a release build, run
+
+    cd <whereever>/juce-spectroscope19-ci
+    cmake -S . -B Builds/Release -DCMAKE_BUILD_TYPE=RELEASE
+    cmake --build Builds/Release
+
+This will produce the result in the folder `Builds/Release`.
+
 
 ## Third party libraries used
 
