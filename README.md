@@ -52,7 +52,15 @@ Then you need to download the binary distribution from the website and install i
     chmod +x cmake-3.15.5-Linux-x86_64.sh
     sudo cmake-3.15.5-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=/usr/local 
 
-Test that the cmake is now on the path 
+Test that the cmake is now on the path:
+
+    cmake --version
+
+should output something similar to
+
+    cmake version 3.15.5
+
+    CMake suite maintained and supported by Kitware
 
 We need to install a list of prerequisite development packages in case they are not present yet. This is best done with the following command:
 
