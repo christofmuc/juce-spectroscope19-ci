@@ -11,10 +11,10 @@ project(juce-spectroscope19-ci)
 # We need a little bit support for the JUCE library, and also want to put our own CMake helpers on the module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/third_party/juce-cmake/cmake" "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-# Include useful scripts for CMake
-include(FetchContent)
 IF (WIN32)
-	FetchContent_Declare(
+	# Include useful scripts for CMake
+    include(FetchContent REQUIRED)
+    FetchContent_Declare(
 	  asiosdk
 	  URL https://www.steinberg.net/asiosdk
 	)
@@ -28,6 +28,17 @@ IF (WIN32)
 	set(GLEW_DIRECTORY "${glew_SOURCE_DIR}/include/")
 	set(GLEW_LIB_DIRECTORY "${glew_SOURCE_DIR}/lib/Release/x64")
 	set(GLEW_DLL_DIRECTORY "${glew_SOURCE_DIR}/bin/Release/x64")
+
+ELSEIF(UNIX)
+
+	# Include useful scripts for CMake
+	find_package(PkgConfig REQUIRED) 
+	find_package(OpenGL)
+
+	# These calls create special `PkgConfig::<MODULE>` variables
+	pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-3.0)
+	pkg_check_modules(WEBKIT REQUIRED IMPORTED_TARGET webkit2gtk-4.0)
+	pkg_check_modules(GLEW REQUIRED IMPORTED_TARGET glew)
 ENDIF()
 
 add_subdirectory(Module)
@@ -54,8 +65,25 @@ set(SOURCES
 
 add_executable(JuceSpectroscope19 WIN32 ${SOURCES})
 target_include_directories(JuceSpectroscope19 INTERFACE ${CMAKE_CURRENT_LIST_DIR})
-target_link_directories(JuceSpectroscope19 PRIVATE ${GLEW_LIB_DIRECTORY})
-target_link_libraries(JuceSpectroscope19 PRIVATE ${JUCE_LIBRARIES} glew32 juce-spectroscope19)
+IF(WIN32)
+	target_link_directories(JuceSpectroscope19 PRIVATE ${GLEW_LIB_DIRECTORY})
+	target_link_libraries(JuceSpectroscope19 PRIVATE ${JUCE_LIBRARIES} glew32 juce-spectroscope19)
+ELSEIF(UNIX)
+	target_link_libraries(JuceSpectroscope19 PRIVATE 
+		${JUCE_LIBRARIES} 
+		PkgConfig::WEBKIT 
+		PkgConfig::GTK 
+		PkgConfig::GLEW 
+		${OPENGL_gl_LIBRARY} 
+		Xext 
+		X11 
+		pthread 
+		${CMAKE_DL_LIBS} 
+		freetype 
+		curl 
+		asound juce-spectroscope19)
+	target_compile_options(JuceSpectroscope19 PRIVATE -pthread -I/usr/include/webkitgtk-4.0 -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libsoup-2.4 -I/usr/include/libxml2 -I/usr/include/webkitgtk-4.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -g -DDEBUG -DJUCE_DEBUG)
+ENDIF()
 
 IF(WIN32)
 	# Post build commands - copy the DLLs (Windows only I guess)
