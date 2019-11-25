@@ -11,9 +11,9 @@ project(juce-spectroscope19-ci)
 # We need a little bit support for the JUCE library, and also want to put our own CMake helpers on the module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/third_party/juce-cmake/cmake" "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+include(FetchContent REQUIRED)
 IF (WIN32)
-	# Include useful scripts for CMake
-    include(FetchContent REQUIRED)
+	# Include useful scripts for CMake    
     FetchContent_Declare(
 	  asiosdk
 	  URL https://www.steinberg.net/asiosdk
