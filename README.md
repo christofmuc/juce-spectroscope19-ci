@@ -64,7 +64,7 @@ should output something similar to
 
 We need to install a list of prerequisite development packages in case they are not present yet. This is best done with the following command:
 
-    sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.0-dev libglew-dev libcurl4-openssl-dev libasound2-dev
+    sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.0-dev libglew-dev libcurl4-openssl-dev libasound2-dev libjack-jack2d-dev
 
 Now we can run the cmake build command and keep fingers crossed that we will build without errors
 

@@ -30,6 +30,7 @@ IF (WIN32)
 	set(GLEW_DLL_DIRECTORY "${glew_SOURCE_DIR}/bin/Release/x64")
 
 ELSEIF(UNIX)
+	ADD_DEFINITIONS(-DJUCE_JACK)
 
 	# Include useful scripts for CMake
 	find_package(PkgConfig REQUIRED) 
