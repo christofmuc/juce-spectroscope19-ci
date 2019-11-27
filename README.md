@@ -50,7 +50,7 @@ Then you need to download the binary distribution from the website and install i
     
     wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5-Linux-x86_64.sh
     chmod +x cmake-3.15.5-Linux-x86_64.sh
-    sudo cmake-3.15.5-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=/usr/local 
+    sudo ./cmake-3.15.5-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=/usr/local 
 
 Test that the cmake is now on the path:
 
