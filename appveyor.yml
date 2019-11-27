@@ -1,0 +1,21 @@
+version: 1.0.{build}
+image:
+- Visual Studio 2017
+- Ubuntu1804
+install:
+- sh: sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.0-dev libglew-dev libcurl4-openssl-dev libasound2-dev libjack-jackd2-dev
+- git submodule update --init --recursive
+environment:
+  matrix:
+  - {}
+build_script:
+- cmd: |
+    cmake -S . -B Builds\Windows -G "Visual Studio 15 2017 Win64" 
+    cmake --build Builds\Windows --config Debug
+    cmake --build Builds\Windows --config Release
+- sh: >-
+    cmake --version &&
+    cmake -S . -B Builds/Debug -DCMAKE_BUILD_TYPE=DEBUG &&
+    cmake --build Builds/Debug && 
+    cmake -S . -B Builds/Release -DCMAKE_BUILD_TYPE=RELEASE &&
+    cmake --build Builds/Release
