@@ -38,6 +38,7 @@ private:
 	TextButton showIOSelectorButton_;
 	TextButton startStopButton_;
 	ToggleButton logXButton_;
+	ToggleButton horizontalModeButton_;
 	AudioDeviceSelectorComponent audioIOSelector_;
 
 	ManagedOpenGLComponent<SpectogramWidget> spectroscope2D_;

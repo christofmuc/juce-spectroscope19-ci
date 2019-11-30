@@ -26,11 +26,17 @@ ExampleWidget::ExampleWidget() :
 	startStopButton_.addListener(this);
 	addAndMakeVisible(startStopButton_);
 
-	logXButton_.setButtonText("Log X");
+	logXButton_.setButtonText("Log Freq");
 	logXButton_.addListener(this);
 	logXButton_.setClickingTogglesState(true);
 	logXButton_.setToggleState(true, dontSendNotification);
 	addAndMakeVisible(logXButton_);
+
+	horizontalModeButton_.setButtonText("Horizontal");
+	horizontalModeButton_.addListener(this);
+	horizontalModeButton_.setClickingTogglesState(true);
+	horizontalModeButton_.setToggleState(false, dontSendNotification);
+	addAndMakeVisible(horizontalModeButton_);
 
 	// These two share the same space, I just toggle between visibility of them
 	addChildComponent(audioIOSelector_);
@@ -69,6 +75,7 @@ void ExampleWidget::resized()
 	auto buttonRow = area.removeFromBottom(50).reduced(10);
 	startStopButton_.setBounds(buttonRow.removeFromLeft(80));
 	logXButton_.setBounds(buttonRow.removeFromLeft(90).withTrimmedLeft(10));
+	horizontalModeButton_.setBounds(buttonRow.removeFromLeft(90).withTrimmedLeft(10));
 	showIOSelectorButton_.setBounds(area.removeFromRight(50).reduced(10));
 	area = area.reduced(10);
 
@@ -86,6 +93,9 @@ void ExampleWidget::buttonClicked(Button* button)
 	}
 	else if (button == &logXButton_ && spectroscope2D_.glComponent()) {
 		spectroscope2D_.glComponent()->setXAxis(button->getToggleState());
+	}
+	else if (button == &horizontalModeButton_ && spectroscope2D_.glComponent()) {
+		spectroscope2D_.glComponent()->setHorizontalMode(button->getToggleState());
 	}
 }
 
