@@ -46,11 +46,31 @@ Install [CMake](https://cmake.org/). At the time of writing, the packaged versio
     sudo apt remove cmake
     sudo apt purge --auto-remove cmake
 
+#### Installing CMake from binary distribution (x86)
+
 Then you need to download the binary distribution from the website and install it according to the instructions:
     
     wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5-Linux-x86_64.sh
     chmod +x cmake-3.15.5-Linux-x86_64.sh
     sudo ./cmake-3.15.5-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=/usr/local 
+
+#### Building CMake yourself
+
+In case you are running on something that is not supported by the binary CMake distribution (like a Raspberry Pi), or the install process for whatever reason fails, you have to build CMake yourself.
+
+On some vanilla Linux distributions, the libcurl is deployed without support for SSL, and this will lead to subsequent failures during CMake configuration when it tries to download stuff with https. To be really really sure you will not run into this problem, build yourself a libcurl with SSL support like this:
+
+    wget https://curl.haxx.se/download/curl-7.67.0.tar.gz
+    tar -xzf curl-7.67.0.tar.gz && cd curl-7.67.0 && ./configure --with-ssl && make -j4 && make install && ldconfig
+
+With the libcurl in place, we can now build CMake itself with
+
+    wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz
+    tar -xzf cmake-3.15.5.tar.gz && cd cmake-3.15.5 && ./bootstrap && make -j4 && make install
+
+This will take awhile, *especially* on a Raspberry.
+
+#### Testing CMake
 
 Test that the cmake is now on the path:
 
@@ -62,9 +82,13 @@ should output something similar to
 
     CMake suite maintained and supported by Kitware
 
+#### Preparing the system
+
 We need to install a list of prerequisite development packages in case they are not present yet. This is best done with the following command:
 
     sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.0-dev libglew-dev libcurl4-openssl-dev libasound2-dev libjack-jack2d-dev
+
+#### Building with CMake
 
 Now we can run the cmake build command and keep fingers crossed that we will build without errors
 
