@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/31pntnp3bhs0dyrv?svg=true)](https://ci.appveyor.com/project/christofmuc/juce-spectroscope19-ci)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fchristofmuc%2Fjuce-spectroscope19-ci.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fchristofmuc%2Fjuce-spectroscope19-ci?ref=badge_shield)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/31pntnp3bhs0dyrv/branch/master?svg=true)](https://ci.appveyor.com/project/christofmuc/juce-spectroscope19-ci/branch/master)
 
@@ -83,6 +84,9 @@ For a release build, run
 This will produce the result in the folder `Builds/Release`.
 
 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fchristofmuc%2Fjuce-spectroscope19-ci.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fchristofmuc%2Fjuce-spectroscope19-ci?ref=badge_large)
+
 ## Third party libraries used
 
 Please understand that this example software uses the following third party libraries, and you are implicitly accepting their license terms as well when using this software. Please visit the links and familarize yourself with their conditions. 
@@ -104,4 +108,4 @@ All pull requests and issues welcome, I will try to get back to you as soon as I
 
 ## About the author
 
-Christof is a lifelong software developer having worked in various industries, and can't stop his programming hobby anyway. 
+Christof is a lifelong software developer having worked in various industries, and can't stop his programming hobby anyway.
