@@ -1,3 +1,5 @@
+Archived - this code has been moved into the main repo https://github.com/christofmuc/juce-spectroscope19 now.
+
 [![Build status](https://ci.appveyor.com/api/projects/status/31pntnp3bhs0dyrv?svg=true)](https://ci.appveyor.com/project/christofmuc/juce-spectroscope19-ci)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/31pntnp3bhs0dyrv/branch/master?svg=true)](https://ci.appveyor.com/project/christofmuc/juce-spectroscope19-ci/branch/master)
